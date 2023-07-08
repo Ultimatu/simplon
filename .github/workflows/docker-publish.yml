@@ -12,11 +12,7 @@ jobs:
   build:
     name: Build & push docker image
     runs-on: ubuntu-latest
-    env:
-      IMG_NAME: ${{ github.repository }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
 
       - name: Debug
         run: |
@@ -39,13 +35,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v3
-        run:
-          docker build . --file Dockerfile --tag ${{ env.IMG_NAME }}:${{ steps.metadata.outputs.tags.latest }}
-        run:
-          docker push ${{ env.IMG_NAME }}:${{ steps.metadata.outputs.tags.latest }}
-        
-
+      run: |
+        docker build . --file Dockerfile --tag ${{ env.IMG_NAME }}:${{ steps.metadata.outputs.tags }}
+        docker push ${{ env.IMG_NAME }}:${{ steps.metadata.outputs.tags }}
+      
+       
+           
 
 
 
