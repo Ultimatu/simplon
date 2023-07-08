@@ -40,5 +40,5 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${ secrets.DOCKERHUB_USERNAME }/simplonapp:latest .
-          docker push ${ secrets.DOCKERHUB_USERNAME }/${ env.IMG_NAME }:latest
+          docker build -t hultimatum/simplonapp:latest .
+          docker push hultimatum/${ env.IMG_NAME }:latest
