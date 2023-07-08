@@ -1,18 +1,21 @@
 spring:
   datasource:
-    #url: jdbc:mysql://springboot-simplon-db.cow14chibkq1.eu-north-1.rds.amazonaws.com:3306/simplon
-    url: jdbc:mysql://mysqldb/simplon
+    #url: jdbc:mysql://springboot-simplon-db.cow14chibkq1.eu-north-1.rds.amazonaws.com:3306/simplon #for aws
+    #url: jdbc:mysql://localhost:3306/simplon #for local
+    url: jdbc:mysql://mysqldb/simplon #for docker
     username: root
     password: root
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: update 
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
     show-sql: true
 server:
   port: 8080
+
+
 
    
       
