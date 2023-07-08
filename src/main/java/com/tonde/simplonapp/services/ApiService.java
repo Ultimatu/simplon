@@ -1,13 +1,12 @@
 package com.tonde.simplonapp.services;
 
 import com.tonde.simplonapp.model.Participant;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
 public interface ApiService {
 
-    public ResponseBody addParticipant(Participant participant);
+    public String addParticipant(Participant participant);
 
     public List<Participant> getAllParticipants();
 
