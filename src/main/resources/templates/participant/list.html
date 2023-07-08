@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- description  -->
+    <meta name="description" content="Liste des participants">
+
+    <title>Liste des participants</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <!--  les liens vers les fichiers CSS de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- les liens vers les fichiers CSS des icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Accueil</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/add"><i class="fas fa-plus"></i> Ajouter un participant</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#"><i class="fas fa-list"></i>Liste</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="success-message" th:if="${added}">
+        <span th:text="${added}" class="d-none"></span>
+    </div>
+
+    <div class="success-message" th:if="${edited}">
+        <span th:text="${edited}" class="d-none"></span>
+    </div>
+
+    <div class="success-message" th:if="${deleted}">
+        <span th:text="${deleted}" class="d-none"></span>
+    </div>
+
+
+    <!-- Contenu de la page -->
+    <div class="container-fluid m-1" th:if="${videtrue}">
+        <p class="alert alert-warning" id="vide">Aucun participant enregistrer</p>
+    </div>
+    <div th:if="${participants}" class="container-fluid mt-4">
+        <div class="d-flex justify-content-center">
+            <h1>Liste des participants</h1>
+
+        </div>
+        <!-- Ajouter la barre de recherche -->
+        <div class="input-group mb-3">
+            <input type="text" id="searchInput" class="form-control" name="keyword"
+                placeholder="Rechercher un participant">
+            
+        </div>
+        <table class="table table-hover table-striped table-responsive-xl">
+            <thead class="thead-dark">
+                <tr>
+                    <th>#</th>
+                    <th><i class="fas fa-text-height"></i>Nom</th>
+                    <th>Prenom</th>
+                    <th><i class="fas fa-mail-bulk"></i>Email</th>
+                    <th><i class="fas fa-phone"></i>Téléphone</th>
+                    <th colspan="2" class="text-center"><i class="fas fa-pen"></i>Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Boucle pour afficher les produits -->
+                <tr th:each="participant : ${participants}">
+                    <td th:text="${participant.id}"></td>
+                    <td th:text="${participant.nom}"></td>
+                    <td th:text="${participant.prenom}"></td>
+                    <td th:text="${participant.email}"></td>
+                    <td th:text="${participant.telephone}"></td>
+                    <td>
+                        <a th:href="@{/edit/{id}(id=${participant.id})}" class="btn btn-info btn-sm"><i
+                                class="fas fa-edit"></i>Modifier</a>
+                    </td>
+                    <td>
+                        <a th:href="@{/delete/{id}(id=${participant.id})}" class="btn btn-danger btn-sm"><i
+                                class="fas fa-trash"></i>Supprimer</a>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+        <!--  les liens de pagination ici -->
+        <nav aria-label="Pagination" id="pagination">
+            <ul class="pagination justify-content-end">
+                <li class="page-item" id="prev" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+                    <a class="page-link" th:href="@{/list(page=${currentPage - 1})}"><i
+                            class="fas fa-angle-double-left"></i></a>
+                </li>
+                <li class="page-item" id="next" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+                    <a class="page-link" th:href="@{/list(page=${currentPage + 1})}"><i
+                            class="fas fa-angle-double-right"></i></a>
+                </li>
+
+            </ul>
+        </nav>
+
+
+    </div>
+
+    <!-- les liens vers les fichiers JavaScript de Bootstrap et jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Lorsque la valeur du champ de recherche change
+            $('#searchInput').keyup(function () {
+                const searchText = $(this).val().toLowerCase(); // Valeur saisie en minuscules
+
+                // Parcourir chaque ligne du tableau
+                $('table tbody tr').each(function () {
+                    const rowData = $(this).text().toLowerCase(); // Contenu de la ligne en minuscules
+
+                    // Vérifier si la ligne correspond à la recherche
+                    if (rowData.indexOf(searchText) === -1) {
+                        $(this).hide(); // Masquer la ligne si elle ne correspond pas
+                    } else {
+                        $(this).show(); // Afficher la ligne si elle correspond
+                    }
+                });
+            });
+            // Vérifiez si une erreur est présente
+            const success = $('.success-message');
+            if (success.length > 0) {
+                const message = success.text().trim();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Opération effectué',
+                    text: message
+                });
+            }
+            const msg = $('#vide');
+            if (msg.length > 0) {
+                const message = msg.text().trim();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Aucun participant',
+                    text: message
+                });
+            }
+            //si le contenue n'atteint pas 10 lignes ne pas afficher la pagination
+            const prev = $('#prev');
+            const next = $('#next');
+            const pagination = $('#pagination');
+            if (prev.hasClass('disabled') && next.hasClass('disabled')) {
+                pagination.addClass('d-none');
+            }
+            else {
+                pagination.removeClass('d-none');
+            }
+
+
+        });
+
+    </script>
+</body>
+
+</html>

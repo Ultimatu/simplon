@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter un participant</title>
+
+    <!-- Les liens vers les fichiers CSS de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Style personnalisé -->
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn:hover {
+            transform: scale(0.98);
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+        }
+
+        .navbar-nav .nav-link {
+            font-size: 1.2rem;
+            margin-left: 0.5rem;
+        }
+
+        fieldset {
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            padding: 1rem;
+        }
+
+        legend {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-group input {
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Barre de navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Accueil</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#"><i class="fas fa-plus"></i> Ajouter un participant</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/list"><i class="fas fa-list"></i> Liste</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Contenu de la page -->
+    <div class="container mt-4">
+        <h1>Ajouter un participant</h1>
+        <div th:if="${erreur}" th:text="${erreur}" id="error" class="alert alert-danger"></div>
+        <form action="/add" method="post" id="form">
+            <fieldset>
+                <legend>Informations personnelles</legend>
+                <div class="form-group">
+                    <label for="nom">Nom</label>
+                    <input type="text" class="form-control" id="nom" name="nom" th:value="${participant.nom}"
+                        min="3" required>
+                </div>
+                <div class="form-group">
+                    <label for="prenom">Prénom</label>
+                    <input type="text" class="form-control" id="prenom" name="prenom" th:value="${participant.prenom}"
+                        min="3" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" name="email" id="email"
+                        th:value="${participant.email}" required>
+                </div>
+                <div class="form-group">
+                    <label for="telephone">Téléphone</label>
+                    <input type="text" class="form-control" id="telephone" name="telephone"
+                        th:value="${participant.telephone}" required min="8">
+                </div>
+            </fieldset>
+            <button type="submit" class="btn btn-primary w-100">Ajouter</button>
+            <hr>
+            <a href="/list" class="btn btn-warning w-100 mb-2">Retour</a>
+        </form>
+    </div>
+
+    <!-- Les liens vers les fichiers JavaScript de Bootstrap et jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
+    <script>
+        // Vérifiez si une erreur est présente
+        const error = $("#error");
+
+        if (error.length > 0) {
+            const message = error.text().trim();
+            Swal.fire({
+                icon: 'error',
+                title: 'Opération échouée',
+                text: message
+            });
+        }
+
+        // Vérifier si le formulaire est valide
+        $("#form").submit(function (e) {
+            const nom = $("#nom").val();
+            const prenom = $("#prenom").val();
+            const email = $("#email").val();
+            const telephone = $("#telephone").val();
+
+            if (nom === "" || prenom === "" || email === "" || telephone === "") {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur',
+                    text: 'Veuillez remplir tous les champs'
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
