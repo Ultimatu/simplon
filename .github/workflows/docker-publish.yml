@@ -12,6 +12,8 @@ jobs:
   build:
     name: Build & push docker image
     runs-on: ubuntu-latest
+    env:
+      IMG_NAME: hultimatm/simplonapp
     
     steps:
       - name: Checkout
