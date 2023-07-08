@@ -1,5 +1,4 @@
 name: Build and publish a Docker image
-
 on:
   push:
     branches:
@@ -9,18 +8,28 @@ on:
   pull_request:
     branches:
       - '*'
-
 jobs:
   build:
     name: Build & push docker image
     runs-on: ubuntu-latest
+    
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Debug
         run: |
           echo "github.ref -> {{ github.ref }}"
  
-
+      - name: Docker metadata
+        id: metadata
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.IMG_NAME }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=raw,value={{sha}},enable=${{ github.ref_type != 'tag' }}
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
         if: ${{ github.ref_type == 'tag' }}
@@ -29,6 +38,9 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build and push Docker image
-        run: |
-          docker build . --file Dockerfile --tag hultimatum/simplonapp:$(date +%s)
-          docker push hultimatum/simplonapp:$(date +%s)
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: ${{ github.event.base_ref =='refs/heads/main' && github.ref_type == 'tag' && !startsWith(github.ref, 'refs/tags/v0.')}}
+          tags: ${{ steps.metadata.outputs.tags }}
+          labels: ${{ steps.metadata.outputs.labels }}
