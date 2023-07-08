@@ -39,13 +39,15 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          push: ${{ github.ref_type == 'tag' }}
-          context: .
-          file: ./Dockerfile
-          tags: ${{ steps.metadata.outputs.tags }}
-          
+        uses: docker/build-push-action@v3
+        run:
+          docker build . --file Dockerfile --tag ${{ env.IMG_NAME }}:${{ steps.metadata.outputs.tags.latest }}
+        run:
+          docker push ${{ env.IMG_NAME }}:${{ steps.metadata.outputs.tags.latest }}
+        
+
+
+
 
         
           
