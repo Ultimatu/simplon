@@ -40,6 +40,6 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t hultimatum/simplonapp:latest .
-          docker push hultimatum/simplonapp:latest
+          docker build -t hultimatum/simplonapp:0.1 .
+          docker push hultimatum/simplonapp:0.1
           
