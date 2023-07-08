@@ -1,4 +1,5 @@
 name: Build and publish a Docker image
+
 on:
   push:
     branches:
@@ -8,6 +9,7 @@ on:
   pull_request:
     branches:
       - '*'
+
 jobs:
   build:
     name: Build & push docker image
@@ -27,6 +29,7 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=raw,value={{sha}},enable=${{ github.ref_type != 'tag' }}
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
         if: ${{ github.ref_type == 'tag' }}
@@ -35,14 +38,6 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build and push Docker image
-      run: |
-        docker build . --file Dockerfile --tag ${{ env.IMG_NAME }}:${{ steps.metadata.outputs.tags }}
-        docker push ${{ env.IMG_NAME }}:${{ steps.metadata.outputs.tags }}
-      
-       
-           
-
-
-
-        
-          
+        run: |
+          docker build . --file Dockerfile --tag ${{ env.IMG_NAME }}:${{ steps.metadata.outputs.tags }}
+          docker push ${{ env.IMG_NAME }}:${{ steps.metadata.outputs.tags }}
