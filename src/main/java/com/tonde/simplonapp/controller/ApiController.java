@@ -5,7 +5,6 @@ import com.tonde.simplonapp.services.ApiServiceImpl;
 import lombok.RequiredArgsConstructor;
 import com.tonde.simplonapp.model.Participant;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 @RestController
 @RequestMapping("/api/v1/part")
