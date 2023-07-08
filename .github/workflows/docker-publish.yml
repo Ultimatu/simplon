@@ -39,7 +39,13 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build and push Docker image
-        run: |
-          docker build -t hultimatum/simplonapp:0.1 .
-          docker push hultimatum/simplonapp:0.1
+        uses: docker/build-push-action@v2
+        with:
+          push: ${{ github.ref_type == 'tag' }}
+          context: .
+          file: ./Dockerfile
+          tags: ${{ steps.metadata.outputs.tags }}
+          
+
+        
           
