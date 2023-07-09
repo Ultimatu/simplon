@@ -22,7 +22,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml -DskipTests
     - name: Build and push docker images
-      uses: mr-smithers-excellent/dcoker-build-push@v5
+      uses: mr-smithers-excellent/docker-build-push@v5
       with:
         registry: docker.io
         images: hultimatum/ci-cd-simplon
