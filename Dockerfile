@@ -1,12 +1,13 @@
 # Utiliser une image de base avec Java et Maven
 FROM maven:3.8.3-openjdk-17-slim AS build
 
-LABEL description="Application Spring Boot pour la formation Simplon, pour la gestion des participants. Version 0.0.1-SNAPSHOT"
+LABEL description="Application Spring Boot pour la formation Simplon, pour la gestion des participants. Version 0.0.1-SNAPSHOT"  
+
 
 # Copier le code source dans l'image
 COPY . /app
 
-# Définir le répertoire de travail
+# Définir le répertoire de travail 
 WORKDIR /app
 
 # Exécuter mvn clean package pour nettoyer et construire le projet
