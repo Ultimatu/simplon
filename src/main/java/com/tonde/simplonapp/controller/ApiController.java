@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RestController
-@RequestMapping("/api/v1/part")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class ApiController {
 
@@ -25,8 +26,9 @@ public class ApiController {
 
     @GetMapping("/all/{token}")
     public ResponseEntity<List<Participant>> getAllParticipants(@PathVariable String token) {
-
+        System.out.println(token);
         if (token == null || !token.equals("1234")) {
+            System.out.println("bad request");
             return ResponseEntity.badRequest().build();
         }
         
@@ -63,7 +65,8 @@ public class ApiController {
     public ResponseEntity<String> deleteParticipant(@PathVariable Integer id, @PathVariable String token) {
 
         if (token == null || !token.equals("1234")) {
-            return ResponseEntity.badRequest().build();
+            String response =  "bad token";
+            return ResponseEntity.badRequest().body(response);
         }
         if (apiService.getParticipantById(id) == null) {
             return ResponseEntity.notFound().build();
@@ -79,11 +82,5 @@ public class ApiController {
         }
         return ResponseEntity.ok().body(apiService.addParticipant(participant));
     }
-
-
-
-
-
-    
 
 }
