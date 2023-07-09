@@ -25,7 +25,7 @@ jobs:
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
         registry: docker.io
-        images: hultimatum/ci-cd-simplon
+        image: hultimatum/ci-cd-simplon
         tags: latest
         dockerfile: Dockerfile
         username:  ${{ secrets.DOCKERHUB_USERNAME }}
