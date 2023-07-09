@@ -13,16 +13,24 @@ jobs: #ce que le workflow fait
     steps:
     - name: Checkout #on récupère le code source de notre projet
       uses: actions/checkout@v2
+    - name: Set up JDK 17 #on installe java 17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    - name: Build with Maven #on build le projet avec maven
+      run: mvn -B package --file pom.xml
+      
     - name: Login to dockerhub
       run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }} 
     - name: Build the Docker image and publish to dockerhub
       run: |
-        docker build -t hultimatum/ci-cd-simplon .
+        docker build -t hultimatum/ci-cd-simplon:0.1 .
         docker push hultimatum/ci-cd-simplon:0.1
     - name: Run the Docker image
       run: docker run -d -p 8080:8080 hultimatum/ci-cd-simplon:0.0.1 
     - name: run mysqldb 
-      run: docker run -d -p 8080:8080 --name mysqldb -e MYSQL_ROOT_PASSWORD=root mysql:8
+      run: docker run -d -p 3306:3306 --name mysqldb -e MYSQL_ROOT_PASSWORD=root mysql:8
     - name: Wait for the server to start
       run: sleep 20
     - name: Check the server is running

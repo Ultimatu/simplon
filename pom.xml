@@ -74,6 +74,9 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>
+            simplonapp
+        </finalName>
     </build>
 
 </project>
