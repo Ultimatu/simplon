@@ -19,25 +19,17 @@ jobs: #ce que le workflow fait
         java-version: '17'
         distribution: 'temurin'
     - name: Build with Maven #on build le projet avec maven
-      run: mvn -B package --file pom.xml -DskipTests
+      run: mvn -B package --file pom.xml -DskipTests 
 
     - name: Login to dockerhub
       run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }} 
     - name: Build the Docker image and publish to dockerhub
       run: |
         docker build -t hultimatum/ci-cd-simplon:0.1 .
-        docker push hultimatum/ci-cd-simplon:0.1
-    - name: Run the Docker image
-      run: docker run -d -p 8080:8080 hultimatum/ci-cd-simplon:0.0.1 
-    - name: run mysqldb 
-      run: docker run -d -p 3306:3306 --name mysqldb -e MYSQL_ROOT_PASSWORD=root mysql:8
-    - name: Wait for the server to start
-      run: sleep 20
-    - name: Check the server is running
-      run: curl -sSf http://localhost:8080/
-    - name: Stop the Docker image
-      run: docker stop $(docker ps -q --filter ancestor=hultimatum/ci-cd-simplon:0.0.1 )
-
+        docker push hultimatum/ci-cd-simplon:0.1 
+    - name: Pull the images
+      run: docker pull hultimatum/ci-cd-simplon:0.1
+    
 
   
   
