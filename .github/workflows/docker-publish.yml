@@ -25,10 +25,9 @@ jobs: #ce que le workflow fait
       run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }} 
     - name: Build the Docker image and publish to dockerhub
       run: |
-        docker build -t hultimatum/ci-cd-simplon:0.1 .
-        docker push hultimatum/ci-cd-simplon:0.1 
-    - name: Pull the images
-      run: docker pull hultimatum/ci-cd-simplon:0.1
+        docker build -t hultimatum/ci-cd-simplon:0.2 .
+        docker push hultimatum/ci-cd-simplon:0.2
+    
     
 
   
