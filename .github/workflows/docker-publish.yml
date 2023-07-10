@@ -19,7 +19,7 @@ jobs: #ce que le workflow fait
         java-version: '17'
         distribution: 'temurin'
     - name: Build with Maven #on build le projet avec maven
-      run: mvn -B package --file pom.xml -DskipTests
+      run: mvn -B package --file pom.xml 
 
     - name: Login to dockerhub
       run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKER_TOKEN }} 
