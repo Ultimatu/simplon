@@ -11,9 +11,10 @@ jobs: #ce que le workflow fait
 
     runs-on: ubuntu-latest #on indique que l'on va utiliser une machine ubuntu
     steps:
-    
+
     - name: Checkout #on récupère le code source de notre projet
       uses: actions/checkout@v2
+
     - name: Set up JDK 17 #on installe java 17
       uses: actions/setup-java@v2
       with:
@@ -28,8 +29,4 @@ jobs: #ce que le workflow fait
       run: |
         docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/ci-cd-simplon:0.3 .
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/ci-cd-simplon:0.3 
-    
-    
-
-  
   
