@@ -40,10 +40,6 @@ Pour configurer et déployer l'application localement, suivez les étapes suivan
 4. Exécutez l'application en exécutant la classe `SimplonappApplication` située dans le package `com.tonde.simplonapp`.
 5. Accédez à l'application dans votre navigateur à l'adresse `http://localhost:8080`.
 
-## Déploiement en ligne
-
-L'application a été déployée en ligne sur <http://finalsimplon-env.eba-fxghme7i.eu-north-1.elasticbeanstalk.com>. Vous pouvez y accéder pour tester les fonctionnalités.
-
 
 ## Docker
 
