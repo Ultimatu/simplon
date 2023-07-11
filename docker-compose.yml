@@ -11,6 +11,7 @@ services:
       - springmysql-net
 
   mysqldb:
+    container_name: mysqldb
     image: mysql:8
     restart: always
     command: --bind-address=0.0.0.0

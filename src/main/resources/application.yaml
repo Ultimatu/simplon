@@ -1,8 +1,8 @@
 spring:
   datasource:
     #url: jdbc:mysql://springboot-simplon-db.cow14chibkq1.eu-north-1.rds.amazonaws.com:3306/simplon #for aws
-    #url: jdbc:mysql://localhost:3306/simplon #for local
-    url: jdbc:mysql://mysqldb/simplon #for docker
+    url: jdbc:mysql://localhost:3306/simplon #for local
+    #url: jdbc:mysql://mysqldb/simplon #for docker
     username: root
     password: root
   jpa:
@@ -12,6 +12,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
     show-sql: true
+  profiles:
+    active: docker
 
 server:
   port: 8080 
