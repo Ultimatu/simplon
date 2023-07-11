@@ -52,7 +52,6 @@ Le fichier Dockerfile permet de créer une image Docker de l'application. Pour c
 ```bash 
 docker build -t simplonapp .
 docker network create springmysql-net
-docker create network dbase-spring
 
 docker pull mysql:latest
 
